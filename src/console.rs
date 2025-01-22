@@ -136,6 +136,63 @@ impl StyledObject {
     fn __str__(&self) -> String {
         format!("{}", self.0)
     }
+
+    fn force_styling(&self, value: bool) -> Self {
+        Self(self.0.clone().force_styling(value))
+    }
+
+    fn for_stderr(&self) -> Self {
+        Self(self.0.clone().for_stderr())
+    }
+
+    fn for_stdout(&self) -> Self {
+        Self(self.0.clone().for_stdout())
+    }
+
+    fn fg(&self, color: Color) -> Self {
+        Self(self.0.clone().fg(color.unwrap()))
+    }
+    fn bg(&self, color: Color) -> Self {
+        Self(self.0.clone().bg(color.unwrap()))
+    }
+
+    fn bold(&self) -> Self {
+        Self(self.0.clone().bold())
+    }
+
+    fn dim(&self) -> Self {
+        Self(self.0.clone().dim())
+    }
+
+    // colors
+    fn black(&self) -> Self {
+        Self(self.0.clone().black())
+    }
+    fn red(&self) -> Self {
+        Self(self.0.clone().red())
+    }
+    fn green(&self) -> Self {
+        Self(self.0.clone().green())
+    }
+    fn yellow(&self) -> Self {
+        Self(self.0.clone().yellow())
+    }
+    fn blue(&self) -> Self {
+        Self(self.0.clone().blue())
+    }
+    fn magenta(&self) -> Self {
+        Self(self.0.clone().magenta())
+    }
+    fn cyan(&self) -> Self {
+        Self(self.0.clone().cyan())
+    }
+    fn white(&self) -> Self {
+        Self(self.0.clone().white())
+    }
+
+    fn color256(&self, color: u8) -> Self {
+        Self(self.0.clone().color256(color))
+    }
 }
 
 #[pyclass]
