@@ -93,6 +93,10 @@ impl Style {
         Self(self.0.clone().bold())
     }
 
+    fn dim(&self) -> Self {
+        Self(self.0.clone().dim())
+    }
+
     // colors
     fn black(&self) -> Self {
         Self(self.0.clone().black())
@@ -131,5 +135,29 @@ pub(crate) struct StyledObject(console::StyledObject<String>);
 impl StyledObject {
     fn __str__(&self) -> String {
         format!("{}", self.0)
+    }
+}
+
+#[pyclass]
+pub(crate) struct Emoji {
+    emoji: String,
+    fallback: String,
+}
+
+#[pymethods]
+impl Emoji {
+    #[new]
+    fn new(emoji: String, fallback: String) -> Self {
+        Self { emoji, fallback }
+    }
+
+    fn __str__(&self) -> String {
+        format!("{}", self)
+    }
+}
+
+impl std::fmt::Display for Emoji {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        console::Emoji(&self.emoji, &self.fallback).fmt(f)
     }
 }

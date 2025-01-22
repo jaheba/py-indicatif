@@ -7,7 +7,6 @@ mod multi;
 mod progress_bar;
 mod style;
 
-use crate::console::{Color, Style};
 use crate::draw_target::ProgressDrawTarget;
 use crate::progress_bar::ProgressBar;
 use crate::style::{ProgressStyle, TemplateError};
@@ -23,8 +22,10 @@ fn py_indicatif(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<MultiProgress>()?;
 
     // console
-    m.add_class::<Color>()?;
-    m.add_class::<Style>()?;
+    m.add_class::<console::Color>()?;
+    m.add_class::<console::Emoji>()?;
+    m.add_class::<console::Style>()?;
+    m.add_class::<console::StyledObject>()?;
 
     Ok(())
 }

@@ -26,8 +26,12 @@ pub(crate) struct ProgressStyle(pub indicatif::style::ProgressStyle);
 #[pymethods]
 impl ProgressStyle {
     #[new]
-    #[pyo3(signature = (template = None, progress_chars = None))]
-    fn new(template: Option<&str>, progress_chars: Option<&str>) -> PyResult<Self> {
+    #[pyo3(signature = (template = None, progress_chars = None, tick_chars = None))]
+    fn new(
+        template: Option<&str>,
+        progress_chars: Option<&str>,
+        tick_chars: Option<&str>,
+    ) -> PyResult<Self> {
         let mut inner = indicatif::style::ProgressStyle::default_bar();
 
         if let Some(template) = template {
@@ -36,6 +40,9 @@ impl ProgressStyle {
 
         if let Some(progress_chars) = progress_chars {
             inner = inner.progress_chars(progress_chars);
+        }
+        if let Some(tick_chars) = tick_chars {
+            inner = inner.tick_chars(tick_chars);
         }
 
         Ok(Self(inner))

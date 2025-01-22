@@ -1,11 +1,11 @@
 from __future__ import annotations
 
 from datetime import timedelta
-from typing import Literal
+from typing import Literal, Never
 
 
 class TemplateError(Exception):
-    def __init__(self) -> None: ...
+    def __init__(self) -> Never: ...
 
 
 class ProgressDrawTarget:
@@ -14,7 +14,10 @@ class ProgressDrawTarget:
 
 class ProgressStyle:
     def __init__(
-        self, template: str | None = None, progress_chars: str | None = None
+        self,
+        template: str | None = None,
+        progress_chars: str | None = None,
+        tick_chars: str | None = None,
     ) -> None: ...
 
 
@@ -97,6 +100,8 @@ class MultiProgress:
 
     def insert_after(self, after: ProgressBar, pb: ProgressBar) -> ProgressBar: ...
 
+    def clear(self): ...
+
     def println(self, msg: str): ...
 
 
@@ -134,3 +139,11 @@ class Color:
 
     @staticmethod
     def Color256(color: int) -> Color: ...
+
+
+class Emoji:
+    def __init__(self, emoji: str, fallback: str) -> None: ...
+
+
+class StyledObject:
+    pass

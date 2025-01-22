@@ -38,6 +38,10 @@ impl MultiProgress {
         pb
     }
 
+    fn clear(&self) -> std::io::Result<()> {
+        self.0.clear()
+    }
+
     fn println(&self, msg: String) -> std::io::Result<()> {
         self.0.println(msg)
     }
