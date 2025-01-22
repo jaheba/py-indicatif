@@ -20,8 +20,8 @@ impl MultiProgress {
         ))
     }
 
-    fn set_draw_target(&self, target: &ProgressDrawTarget) {
-        self.0.set_draw_target(target.native());
+    fn set_draw_target(&self, draw_target: &ProgressDrawTarget) {
+        self.0.set_draw_target(draw_target.native());
     }
 
     fn add(&self, pb: ProgressBar) -> ProgressBar {

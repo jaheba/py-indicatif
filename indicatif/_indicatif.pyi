@@ -87,6 +87,19 @@ class ProgressBar:
     def finish_and_clear(self) -> None: ...
 
 
+class MultiProgress:
+    @staticmethod
+    def with_draw_target(draw_target: ProgressDrawTarget) -> MultiProgress: ...
+
+    def set_draw_target(self, draw_target) -> None: ...
+
+    def add(self, pb: ProgressBar) -> ProgressBar: ...
+
+    def insert_after(self, after: ProgressBar, pb: ProgressBar) -> ProgressBar: ...
+
+    def println(self, msg: str): ...
+
+
 class Color:
     def __init__(
         self,
