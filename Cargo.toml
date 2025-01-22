@@ -1,0 +1,14 @@
+[package]
+name = "py-indicatif"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "py_indicatif"
+crate-type = ["cdylib"]
+
+[dependencies]
+console = "0.15.10"
+indicatif = "0.17.9"
+pyo3 = "0.23.3"

@@ -1,0 +1,24 @@
+[build-system]
+requires = ["maturin>=1.8,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "py-indicatif"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dynamic = ["version"]
+[tool.maturin]
+features = ["pyo3/extension-module"]
+module-name = "indicatif._indicatif"
+
+
+[dependency-groups]
+dev = [
+    "ipython>=8.12.3",
+    "jupyter[notebook]>=1.1.1",
+    "tqdm>=4.67.1",
+]
