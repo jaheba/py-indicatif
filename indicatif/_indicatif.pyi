@@ -13,7 +13,9 @@ class ProgressDrawTarget:
 
 
 class ProgressStyle:
-    def __init__(self, template: str | None, progress_chars: str | None) -> None: ...
+    def __init__(
+        self, template: str | None = None, progress_chars: str | None = None
+    ) -> None: ...
 
 
 class ProgressBar:
@@ -79,6 +81,8 @@ class ProgressBar:
     def set_style(self, style: ProgressStyle) -> None: ...
 
     def reset(self) -> None: ...
+
+    def reset_eta(self) -> None: ...
 
     def finish_and_clear(self) -> None: ...
 

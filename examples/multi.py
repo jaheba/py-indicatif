@@ -47,7 +47,13 @@ def main():
     )
 
     n = 200
-    pb1 = multi_progress.add(ProgressBar(n, style=style, message="first"))
+    pb1 = multi_progress.add(
+        ProgressBar(
+            n,
+            style=style,
+            message="first",
+        )
+    )
     pb3 = multi_progress.add(ProgressBar(n, style=style, message="third"))
 
     pb2 = multi_progress.insert_after(

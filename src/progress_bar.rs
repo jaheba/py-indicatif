@@ -193,6 +193,10 @@ impl ProgressBar {
         self.0.reset()
     }
 
+    fn reset_eta(&self) {
+        self.0.reset_eta()
+    }
+
     fn finish_and_clear(&self) {
         self.0.finish_and_clear()
     }
