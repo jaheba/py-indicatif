@@ -20,5 +20,6 @@ module-name = "indicatif._indicatif"
 dev = [
     "ipython>=8.12.3",
     "jupyter[notebook]>=1.1.1",
+    "pytest>=8.3.4",
     "tqdm>=4.67.1",
 ]

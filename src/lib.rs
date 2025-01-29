@@ -3,6 +3,7 @@ use pyo3::prelude::*;
 mod console;
 mod draw_target;
 mod format;
+mod in_memory;
 mod multi;
 mod progress_bar;
 mod style;
@@ -11,6 +12,7 @@ use crate::draw_target::ProgressDrawTarget;
 use crate::format::{
     BinaryBytes, DecimalBytes, HumanBytes, HumanCount, HumanDuration, HumanFloatCount,
 };
+use crate::in_memory::InMemoryTerm;
 use crate::multi::{MultiProgress, MultiProgressAlignment};
 use crate::progress_bar::ProgressBar;
 use crate::style::{ProgressStyle, TemplateError};
@@ -21,6 +23,7 @@ use crate::style::{ProgressStyle, TemplateError};
 fn py_indicatif(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<ProgressBar>()?;
     m.add_class::<ProgressStyle>()?;
+    m.add_class::<InMemoryTerm>()?;
     m.add_class::<TemplateError>()?;
     m.add_class::<ProgressDrawTarget>()?;
     m.add_class::<MultiProgress>()?;
