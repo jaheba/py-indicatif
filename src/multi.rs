@@ -4,7 +4,7 @@ use pyo3::types::PyAny;
 
 use crate::{ProgressBar, ProgressDrawTarget};
 
-#[pyclass(eq, eq_int)]
+#[pyclass(eq, eq_int, module = "indicatif._indicatif")]
 #[derive(PartialEq, Debug, Clone)]
 pub(crate) enum MultiProgressAlignment {
     Top,
