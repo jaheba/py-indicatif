@@ -12,7 +12,7 @@ pub(crate) enum MultiProgressAlignment {
 }
 
 impl MultiProgressAlignment {
-    pub fn resolve(&self) -> indicatif::MultiProgressAlignment {
+    pub fn native(&self) -> indicatif::MultiProgressAlignment {
         match self {
             Self::Top => indicatif::MultiProgressAlignment::Top,
             Self::Bottom => indicatif::MultiProgressAlignment::Bottom,
@@ -46,7 +46,7 @@ impl MultiProgress {
     }
 
     fn set_alignment(&self, alignment: MultiProgressAlignment) {
-        self.0.set_alignment(alignment.resolve());
+        self.0.set_alignment(alignment.native());
     }
 
     fn add(&self, pb: ProgressBar) -> ProgressBar {
