@@ -205,4 +205,8 @@ impl ProgressBar {
         self.set_style(style);
         self.clone()
     }
+
+    fn suspend(&self, f: PyObject) -> PyResult<Py<PyAny>> {
+        self.0.suspend(|| Python::with_gil(|py| f.call0(py)))
+    }
 }
