@@ -112,6 +112,10 @@ class ProgressBar:
 
     def with_tab_width(self, tab_width: int) -> ProgressBar: ...
 
+    def with_message(self, msg: str) -> ProgressBar: ...
+
+    def with_prefix(self, prefix: str) -> ProgressBar: ...
+
 
 class MultiProgressAlignment(Enum):
     Top = 0

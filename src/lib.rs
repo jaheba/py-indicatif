@@ -6,6 +6,7 @@ mod format;
 mod in_memory;
 mod multi;
 mod progress_bar;
+mod state;
 mod style;
 
 use crate::draw_target::ProgressDrawTarget;
@@ -15,6 +16,7 @@ use crate::format::{
 use crate::in_memory::InMemoryTerm;
 use crate::multi::{MultiProgress, MultiProgressAlignment};
 use crate::progress_bar::ProgressBar;
+use crate::state::ProgressFinish;
 use crate::style::{ProgressStyle, TemplateError};
 
 /// A Python module implemented in Rust.
@@ -25,6 +27,7 @@ fn py_indicatif(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<ProgressStyle>()?;
     m.add_class::<InMemoryTerm>()?;
     m.add_class::<TemplateError>()?;
+    m.add_class::<ProgressFinish>()?;
     m.add_class::<ProgressDrawTarget>()?;
     m.add_class::<MultiProgress>()?;
     m.add_class::<MultiProgressAlignment>()?;

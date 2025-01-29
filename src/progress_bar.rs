@@ -2,7 +2,7 @@ use std::{borrow::Cow, time::Duration};
 
 use pyo3::prelude::*;
 
-use crate::{ProgressDrawTarget, ProgressStyle};
+use crate::{ProgressDrawTarget, ProgressFinish, ProgressStyle};
 
 #[pyclass(module = "indicatif._indicatif")]
 #[derive(Clone)]
@@ -234,6 +234,22 @@ impl ProgressBar {
 
     fn reset_elapsed(&self) {
         self.0.reset_elapsed()
+    }
+
+    fn with_message(&self, msg: String) -> Self {
+        Self(self.0.clone().with_message(msg))
+    }
+
+    fn with_prefix(&self, prefix: String) -> Self {
+        Self(self.0.clone().with_prefix(prefix))
+    }
+
+    fn with_position(&self, pos: u64) -> Self {
+        Self(self.0.clone().with_position(pos))
+    }
+
+    fn with_finish(&self, finish: ProgressFinish) -> Self {
+        Self(self.0.clone().with_finish(finish.native()))
     }
 
     fn with_style(&self, style: ProgressStyle) -> Self {
