@@ -20,7 +20,7 @@ def worker(pb):
     for i in range(512):
         time.sleep(wait)
         pb.inc(1)
-        pb.message = f"{100 * i / 512:3}%"
+        pb.message = f"{int(100 * i / 512):3d}%"
 
     pb.finish("100%")
 
