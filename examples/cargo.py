@@ -1,7 +1,5 @@
 import random
 import time
-from threading import Thread
-
 from multiprocessing.pool import ThreadPool
 
 from queue import Empty, Queue
@@ -55,56 +53,50 @@ def compile_crate(thread_no: int, input: Queue, output: Queue):
             time.sleep(random.uniform(0.25, 1))
 
 
+NUM_CPUS = 4
+
 compiling = console.style(f"{'Compiling':>12}", fg="green", bold=True)
 finished = console.style(f"{'Finished':>12}", fg="green", bold=True)
 
+start = time.time()
 
-def main():
-    NUM_CPUS = 4
+# mimic cargo progress bar although it behaves a bit different
+pb = ProgressBar(
+    length=len(CRATES),
+    prefix="Building",
+    style=ProgressStyle(
+        template="{prefix:>12.cyan.bold} [{bar:57}] {pos}/{len} {wide_msg}",
+        progress_chars="=> ",
+    ),
+)
 
-    start = time.time()
+# setup channels
+input_queue = Queue()
+output_queue = Queue()
 
-    # mimic cargo progress bar although it behaves a bit different
-    pb = ProgressBar(
-        length=len(CRATES),
-        prefix="Building",
-        style=ProgressStyle(
-            template="{prefix:>12.cyan.bold} [{bar:57}] {pos}/{len} {wide_msg}",
-            progress_chars="=> ",
-        ),
-    )
+for crate in CRATES:
+    input_queue.put(crate)
 
-    # setup channels
-    input_queue = Queue()
-    output_queue = Queue()
+with ThreadPool(NUM_CPUS) as pool:
+    processing = [None] * NUM_CPUS
 
-    for crate in CRATES:
-        input_queue.put(crate)
+    for thread_no in range(NUM_CPUS):
+        pool.apply_async(compile_crate, args=(thread_no, input_queue, output_queue))
 
-    with ThreadPool(NUM_CPUS) as pool:
-        processing = [None] * NUM_CPUS
+    finished = 0
+    while finished < NUM_CPUS:
+        thread_n, name, version = output_queue.get()
+        processing[thread_n] = name
+        pb.message = ", ".join(filter(None, processing))
 
-        for thread_no in range(NUM_CPUS):
-            pool.apply_async(compile_crate, args=(thread_no, input_queue, output_queue))
+        if name is None:
+            finished += 1
+        else:
+            pb.println(f"{compiling} {name} {version}")
+            pb.inc(1)
 
-        finished = 0
-        while finished < NUM_CPUS:
-            thread_n, name, version = output_queue.get()
-            processing[thread_n] = name
-            pb.message = ", ".join(filter(None, processing))
+    pool.join()
 
-            if name is None:
-                finished += 1
-            else:
-                pb.println(f"{compiling} {name} {version}")
-                pb.inc(1)
-
-        pool.join()
-
-    pb.finish_and_clear()
-    elapsed = time.time() - start
-    print(f"{finished} dev [unoptimized + debuginfo] target(s) in {elapsed:.2f}s")
-
-
-if __name__ == "__main__":
-    main()
+pb.finish_and_clear()
+elapsed = time.time() - start
+print(f"{finished} dev [unoptimized + debuginfo] target(s) in {elapsed:.2f}s")
