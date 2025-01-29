@@ -5,7 +5,9 @@ from threading import Thread
 from indicatif import MultiProgress, ProgressBar, ProgressStyle
 
 
-def worker_1(pb, n):
+def worker_1(multi_progress, pb, n):
+    pb.tick()
+
     for i in range(n):
         time.sleep(0.015)
 
@@ -17,7 +19,9 @@ def worker_1(pb, n):
     pb.finish("all jobs started")
 
 
-def worker_2(pb, n):
+def worker_2(multi_progress, pb, n):
+    pb.tick()
+
     def step():
         time.sleep(random.uniform(1.0, 5.0))
         pb.inc(1)
@@ -29,13 +33,19 @@ def worker_2(pb, n):
     for thread in threads:
         thread.join()
 
+    multi_progress.println("pb3 is done!")
 
-def worker_3(pb, n):
+
+def worker_3(multi_progress, pb, n):
+    pb.tick()
+
     for i in range(n):
         time.sleep(0.002)
 
         pb.message = f"item #{i + 1}"
         pb.inc(1)
+
+    pb.finish_with_message("done")
 
 
 multi_progress = MultiProgress()
@@ -57,10 +67,11 @@ pb3 = multi_progress.add(ProgressBar(n, style=style, message="third"))
 
 pb2 = multi_progress.insert_after(pb1, ProgressBar(n, style=style, message="second"))
 
+
 threads = [
-    Thread(target=worker_1, args=(pb1, n)),
-    Thread(target=worker_2, args=(pb2, n)),
-    Thread(target=worker_3, args=(pb3, n)),
+    Thread(target=worker_1, args=(multi_progress, pb1, n)),
+    Thread(target=worker_2, args=(multi_progress, pb2, n)),
+    Thread(target=worker_3, args=(multi_progress, pb3, n)),
 ]
 
 multi_progress.println("starting!")
@@ -70,3 +81,6 @@ for thread in threads:
 
 for thread in threads:
     thread.join()
+
+pb2.finish_with_message("all jobs done")
+multi_progress.clear()
